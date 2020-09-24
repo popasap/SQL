@@ -1,0 +1,3 @@
+select ac1.player_id, ac1.event_date, sum(ac2.games_played) as games_played_so_far from activity ac1, activity ac2 
+where ac1.player_id = ac2.player_id and ac2.event_date <= ac1.event_date
+group by ac1.player_id, ac1.event_date
