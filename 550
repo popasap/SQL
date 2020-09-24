@@ -1,0 +1,7 @@
+select round(
+(select count(distinct(ac1.player_id)) from activity ac1, activity ac2 where ac1.player_id = ac2.player_id and datediff(ac2.event_date, ac1.event_date) = 1
+and (ac1.player_id, ac1.event_date) in 
+(select player_id, min(event_date) from activity group by player_id))
+/(
+
+select count(distinct ac1.player_id)  from activity ac1) ,2) as fraction
