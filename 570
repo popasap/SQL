@@ -1,0 +1,4 @@
+select Name from employee e2 where e2.Id in 
+(select ManagerId from 
+(select ManagerId, count(ManagerId) as num from employee em1 group by ManagerId) 
+as t1 where num >= 5) 
