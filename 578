@@ -1,3 +1,6 @@
-select question_id as survey_log from survey_log group by question_id having count(answer_id) =
-(select max(count_num) from
-(select count(answer_id) as count_num from survey_log group by question_id) x)
+select answer_table.question_id as survey_log from 
+(select question_id, count(*) as answer_count from survey_log where action = "answer" group by question_id ) as answer_table
+join
+(select question_id, count(*) as show_count from survey_log where action = "show" group by question_id ) as show_table
+on answer_table.question_id = show_table.question_id order by (answer_table.answer_count/show_table.show_count) desc 
+limit 1
