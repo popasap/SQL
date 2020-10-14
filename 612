@@ -1,0 +1,3 @@
+select round(sqrt(min(pow(q1.x- q2.x,2) + pow(q1.y - q2.y, 2))), 2) as shortest 
+from  point_2d q1 join point_2d q2 
+where q1.x != q2.x or q1.y != q2.y
