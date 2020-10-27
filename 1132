@@ -1,0 +1,8 @@
+
+select round(avg(ifnull(removal.cnt, 0)/total.cnt)*100 ,2) as average_daily_percent from
+(select action_date, count(distinct post_id) as cnt from actions where action = 'report' and extra = 'spam' group by action_date) as total
+left join
+
+(select temp.action_date, count(distinct r.post_id) as cnt from removals r join (select distinct * from actions where action = 'report' and extra = 'spam') as temp on r.post_id = temp.post_id group by temp.action_date) as removal
+
+on total.action_date = removal.action_date
