@@ -1,0 +1,10 @@
+select business_id from 
+(select business_id, count(business_id) as cnt from events join
+(select total.event_type as e_type , round(total.cnt/num_business.cnt, 2) as ave from 
+
+(select event_type, sum(occurences) as cnt from events group by event_type) total
+left join
+(select event_type, count(business_id) as cnt from events group by event_type) num_business 
+on num_business.event_type = total.event_type) as aveg
+on events.event_type = aveg.e_type where events.occurences > aveg.ave group by business_id) t1 
+where t1.cnt > 1
